@@ -1,0 +1,35 @@
+====================================================================
+QUY TẮC LÀM VIỆC NHÓM TRÊN GITHUB & VS CODE
+====================================================================
+
+1. QUY TRÌNH MỖI KHI VÀO VS CODE ĐỂ BẮT ĐẦU CODE 
+--------------------------------------------------------------------
+Luôn cập nhật code mới nhất của cả nhóm từ nhánh 'develop' về nhánh của mình
+trước khi gõ dòng code mới (để tránh xung đột code sau này):
+
+   git checkout <ten-nhanh-cua-ban>
+   git pull origin develop
+
+2. QUY TRÌNH KHI LÀM XONG BÀI ĐỂ NỘP LÊN NHÓM 
+--------------------------------------------------------------------
+Bước 1: Lưu tất cả file đang sửa trên VS Code (nhấn Ctrl + S).
+Bước 2: Mở Terminal (Ctrl + ~) và chạy 3 lệnh đẩy bài lên nhánh cá nhân:
+
+   git add .
+   git commit -m "Mo ta ngan gon phan chuc nang vua lam"
+   git push origin <ten-nhanh-cua-ban>
+
+Bước 3: Tạo Pull Request (PR) trên trang web GitHub để gộp vào 'develop':
+   - Truy cập: https://github.com/nguyenmanhdat1906/BTL_CNW_WEB-MOHINH
+   - Bấm nút màu xanh "Compare & pull request" hiện ở đầu trang
+     (hoặc vào tab Pull requests -> New pull request).
+   - Kiểm tra thật kỹ 2 ô chọn nhánh phía trên:
+       + base: develop   (TUYỆT ĐỐI KHÔNG CHỌN main)
+       + compare: <ten-nhanh-cua-ban>
+   - Bấm "Create pull request" để Trưởng nhóm kiểm tra và duyệt gộp bài (Merge).
+
+====================================================================
+LƯU Ý NHANH:
+- Trước khi gõ lệnh git, luôn nhìn góc dưới cùng bên trái VS Code để chắc chắn
+  mình đang đứng đúng ở nhánh cá nhân (<ten-nhanh-cua-ban>).
+====================================================================
