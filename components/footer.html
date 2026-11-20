@@ -1,0 +1,42 @@
+<footer class="glass-footer">
+    <p>© 2026 GUNPLA HUB - Dự án Website Mô Hình Gundam (BTL Công Nghệ Web).</p>
+</footer>
+
+<!-- NGĂN KÉO GIỎ HÀNG KÍNH MỜ -->
+<div id="cart-overlay" class="cart-overlay" onclick="toggleCart()"></div>
+<aside id="cart-drawer" class="cart-drawer">
+    <div class="cart-header">
+        <h3>KHO ĐỒ PILOT (GIỎ HÀNG)</h3>
+        <button class="close-cart" onclick="toggleCart()">✕</button>
+    </div>
+
+    <div id="cart-items" class="cart-items"></div>
+
+    <div class="cart-footer">
+        <?php if (isset($_SESSION['username'])): ?>
+            <div class="checkout-inputs" style="margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px;">
+                <input type="text" id="cus-name" placeholder="Tên người nhận" value="<?php echo htmlspecialchars($_SESSION['username']); ?>" style="padding: 9px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: #fff; outline: none;">
+                <input type="text" id="cus-phone" placeholder="Số điện thoại liên hệ" style="padding: 9px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: #fff; outline: none;">
+                <input type="text" id="cus-address" placeholder="Địa chỉ nhận hàng" style="padding: 9px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: #fff; outline: none;">
+            </div>
+            <div class="cart-total">
+                <span>Tổng cộng:</span>
+                <span id="cart-total-price">0₫</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">TIẾN HÀNH ĐẶT HÀNG</button>
+        <?php else: ?>
+            <div class="cart-total">
+                <span>Tổng cộng:</span>
+                <span id="cart-total-price">0₫</span>
+            </div>
+            <p style="color: #ffccd5; font-size: 13px; text-align: center; margin-bottom: 12px;">
+                ⚠️ Pilot cần đăng nhập tài khoản để tiến hành đặt hàng!
+            </p>
+            <a href="login.php" class="checkout-btn" style="display: block; text-align: center; text-decoration: none;">
+                ĐĂNG NHẬP ĐỂ ĐẶT HÀNG
+            </a>
+        <?php endif; ?>
+    </div>
+</aside>
+
+<div id="toast-msg" class="toast-msg">Đã thêm mô hình vào giỏ hàng!</div>
