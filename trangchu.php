@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php
+session_start();
+require_once 'database.php';
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -10,168 +13,31 @@
 </head>
 <body>
 
-    <!-- THANH ĐIỀU HƯỚNG KÍNH MỜ (HEADER) -->
-    <header class="glass-header">
-        <a href="trangchu.php" class="logo">GUNPLA<span>HUB</span></a>
-        
-        <nav class="nav-links">
-            <a href="trangchu.php" class="active">Trang chủ</a>
-            <a href="#products">Mô hình Mới</a>
-            <a href="#grades">Phân cấp (Grade)</a>
-            <a href="#tools">Dụng cụ Gunpla</a>
-        </nav>
+    <!-- 1. Nhúng Header -->
+    <?php include 'components/header.html'; ?>
 
-        <div class="header-actions">
-            <a href="#" class="cart-btn">🛒 Giỏ hàng (0)</a>
-            <?php if (isset($_SESSION['username'])): ?>
-    <span style="color: #00d2ff; font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700;">
-        👨‍🚀 <?php echo htmlspecialchars($_SESSION['username']); ?>
-    </span>
-    <a href="logout.php" class="login-btn" style="background: rgba(255,255,255,0.15); box-shadow: none;">ĐĂNG XUẤT</a>
-<?php else: ?>
-    <a href="login.php" class="login-btn">LOGIN</a>
-<?php endif; ?>
-
-        </div>
-    </header>
-
-    <!-- KHU VỰC BANNER CHÍNH (HERO SECTION) -->
+    <!-- Banner chào mừng -->
     <section class="hero-section">
         <div class="hero-glass-box">
             <span class="badge">NEW ARRIVAL 2026</span>
             <h1>BỘ SƯU TẬP GUNPLA THẾ HỆ MỚI</h1>
-            <p>Khám phá các mẫu mô hình lắp ráp Bandai chính hãng từ tỷ lệ 1/144 đến 1/60. Trải nghiệm công nghệ khung xương chi tiết và hiệu ứng phát sáng đỉnh cao.</p>
-            <div class="hero-buttons">
-                <a href="#products" class="btn-primary">KHÁM PHÁ NGAY</a>
-                <a href="login.php" class="btn-secondary">ĐĂNG KÝ THÀNH VIÊN</a>
-            </div>
+            <p>Khám phá các mẫu mô hình lắp ráp Bandai chính hãng từ tỷ lệ 1/144 đến 1/60.</p>
         </div>
     </section>
 
-    <!-- KHU VỰC TRƯNG BÀY SẢN PHẨM -->
-    <main id="products" class="container">
-        
-        <!-- Thanh tiêu đề & Bộ lọc phân loại -->
-        <div class="section-header">
-            <h2>KHO MÔ HÌNH TRƯNG BÀY</h2>
-            <div class="filter-tabs" id="grades">
-                <button class="filter-btn active" onclick="filterProduct('all', this)">TẤT CẢ</button>
-                <button class="filter-btn" onclick="filterProduct('HG', this)">HG (1/144)</button>
-                <button class="filter-btn" onclick="filterProduct('RG', this)">RG (1/144)</button>
-                <button class="filter-btn" onclick="filterProduct('MG', this)">MG (1/100)</button>
-                <button class="filter-btn" onclick="filterProduct('PG', this)">PG (1/60)</button>
-            </div>
-        </div>
+    <!-- Bố cục 3 cột: Left - Content - Right -->
+    <div class="layout-wrapper">
+        <?php include 'components/left.html'; ?>
+        <?php include 'components/content.html'; ?>
+        <?php include 'components/right.html'; ?>
+    </div>
 
-        <!-- Lưới sản phẩm (Product Grid) -->
-        <div class="product-grid">
+    <!-- 5. Nhúng Footer & Giỏ hàng -->
+    <?php include 'components/footer.html'; ?>
 
-            <!-- Sản phẩm 1 -->
-            <div class="product-card" data-grade="MG">
-                <div class="card-badge mg">MG 1/100</div>
-                <div class="img-box">
-                    <img src="images/wallpaperflare.com_wallpaper.jpg" alt="Strike Freedom Gundam">
-                </div>
-                <div class="card-info">
-                    <h3>MGEX Strike Freedom Gundam</h3>
-                    <p class="series">Mobile Suit Gundam SEED Destiny</p>
-                    <div class="price-row">
-                        <span class="price">3.450.000₫</span>
-                        <button class="add-cart-btn">+ Thêm</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sản phẩm 2 -->
-            <div class="product-card" data-grade="RG">
-                <div class="card-badge rg">RG 1/144</div>
-                <div class="img-box">
-                    <img src="images/wallpaperflare.com_wallpaper.jpg" alt="RX-93 Nu Gundam">
-                </div>
-                <div class="card-info">
-                    <h3>RG RX-93ff Nu Gundam</h3>
-                    <p class="series">Char's Counterattack</p>
-                    <div class="price-row">
-                        <span class="price">1.150.000₫</span>
-                        <button class="add-cart-btn">+ Thêm</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sản phẩm 3 -->
-            <div class="product-card" data-grade="PG">
-                <div class="card-badge pg">PG 1/60</div>
-                <div class="img-box">
-                    <img src="images/wallpaperflare.com_wallpaper.jpg" alt="Unicorn Gundam">
-                </div>
-                <div class="card-info">
-                    <h3>PG RX-0 Unicorn Gundam</h3>
-                    <p class="series">Mobile Suit Gundam Unicorn</p>
-                    <div class="price-row">
-                        <span class="price">4.800.000₫</span>
-                        <button class="add-cart-btn">+ Thêm</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sản phẩm 4 -->
-            <div class="product-card" data-grade="HG">
-                <div class="card-badge hg">HG 1/144</div>
-                <div class="img-box">
-                    <img src="images/wallpaperflare.com_wallpaper.jpg" alt="Gundam Aerial">
-                </div>
-                <div class="card-info">
-                    <h3>HG Gundam Aerial Rebuild</h3>
-                    <p class="series">The Witch from Mercury</p>
-                    <div class="price-row">
-                        <span class="price">480.000₫</span>
-                        <button class="add-cart-btn">+ Thêm</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sản phẩm 5 -->
-            <div class="product-card" data-grade="MG">
-                <div class="card-badge mg">MG 1/100</div>
-                <div class="img-box">
-                    <img src="images/wallpaperflare.com_wallpaper.jpg" alt="Barbatos Gundam">
-                </div>
-                <div class="card-info">
-                    <h3>MG ASW-G-08 Gundam Barbatos</h3>
-                    <p class="series">Iron-Blooded Orphans</p>
-                    <div class="price-row">
-                        <span class="price">1.250.000₫</span>
-                        <button class="add-cart-btn">+ Thêm</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sản phẩm 6 -->
-            <div class="product-card" data-grade="RG">
-                <div class="card-badge rg">RG 1/144</div>
-                <div class="img-box">
-                    <img src="images/wallpaperflare.com_wallpaper.jpg" alt="Sazabi">
-                </div>
-                <div class="card-info">
-                    <h3>RG MSN-04 Sazabi</h3>
-                    <p class="series">Char's Counterattack</p>
-                    <div class="price-row">
-                        <span class="price">1.100.000₫</span>
-                        <button class="add-cart-btn">+ Thêm</button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- CHÂN TRANG (FOOTER) -->
-    <footer class="glass-footer">
-        <p>© 2026 GUNPLA HUB - Hệ thống phân phối mô hình Gundam chính hãng.</p>
-    </footer>
-
-    <!-- Script lọc phân loại sản phẩm nhanh -->
+    <!-- Script Lọc sản phẩm & Giỏ hàng -->
     <script>
+        // Lọc theo Grade
         function filterProduct(grade, btnElement) {
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             btnElement.classList.add('active');
@@ -185,7 +51,142 @@
                 }
             });
         }
-    </script>
 
+        let cart = JSON.parse(localStorage.getItem('gunpla_cart')) || [];
+
+        // Mở / Đóng giỏ hàng
+        function toggleCart() {
+            document.getElementById('cart-drawer').classList.toggle('open');
+            document.getElementById('cart-overlay').classList.toggle('show');
+        }
+
+        // Hàm nhận dữ liệu từ nút bấm có thuộc tính data-*
+        function addFromBtn(btn) {
+            const name = btn.getAttribute('data-name');
+            const price = Number(btn.getAttribute('data-price'));
+            const image = btn.getAttribute('data-image');
+            addToCart(name, price, image);
+        }
+
+        // Thêm sản phẩm vào giỏ
+        function addToCart(name, price, image) {
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.qty += 1;
+            } else {
+                cart.push({ name: name, price: price, image: image, qty: 1 });
+            }
+            saveAndRenderCart();
+            showToast(`Đã thêm "${name}" vào giỏ!`);
+        }
+
+        function changeQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) cart.splice(index, 1);
+            saveAndRenderCart();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            saveAndRenderCart();
+        }
+
+        function saveAndRenderCart() {
+            localStorage.setItem('gunpla_cart', JSON.stringify(cart));
+            const cartCountEl = document.getElementById('cart-count');
+            const cartItemsEl = document.getElementById('cart-items');
+            const cartTotalEl = document.getElementById('cart-total-price');
+
+            if (cartCountEl) {
+                cartCountEl.innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+            }
+
+            if (!cartItemsEl || !cartTotalEl) return;
+
+            if (cart.length === 0) {
+                cartItemsEl.innerHTML = '<p class="empty-cart">Chưa có mô hình nào trong kho của bạn.</p>';
+                cartTotalEl.innerText = '0₫';
+                return;
+            }
+
+            let html = '';
+            let totalPrice = 0;
+            cart.forEach((item, index) => {
+                totalPrice += item.price * item.qty;
+                html += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="item-details">
+                            <h4>${item.name}</h4>
+                            <span class="item-price">${item.price.toLocaleString('vi-VN')}₫</span>
+                            <div class="qty-controls">
+                                <button onclick="changeQty(${index}, -1)">-</button>
+                                <span>${item.qty}</span>
+                                <button onclick="changeQty(${index}, 1)">+</button>
+                            </div>
+                        </div>
+                        <button class="remove-btn" onclick="removeItem(${index})">🗑</button>
+                    </div>
+                `;
+            });
+            cartItemsEl.innerHTML = html;
+            cartTotalEl.innerText = totalPrice.toLocaleString('vi-VN') + '₫';
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast-msg');
+            if (!toast) return;
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // Gửi đơn hàng về database
+        async function checkout() {
+            if (cart.length === 0) {
+                alert('Giỏ hàng của bạn đang trống!');
+                return;
+            }
+
+            const cusName = document.getElementById('cus-name').value.trim();
+            const cusPhone = document.getElementById('cus-phone').value.trim();
+            const cusAddress = document.getElementById('cus-address').value.trim();
+
+            if (!cusName || !cusPhone || !cusAddress) {
+                alert('Vui lòng điền đầy đủ Tên, Số điện thoại và Địa chỉ giao hàng!');
+                return;
+            }
+
+            const totalPrice = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+            try {
+                const response = await fetch('luu_donhang.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        customer_name: cusName,
+                        phone: cusPhone,
+                        address: cusAddress,
+                        total_price: totalPrice,
+                        items: cart
+                    })
+                });
+
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert(result.message);
+                    cart = [];
+                    saveAndRenderCart();
+                    toggleCart();
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                alert('Không thể kết nối tới máy chủ để lưu đơn hàng!');
+            }
+        }
+
+        saveAndRenderCart();
+    </script>
 </body>
 </html>

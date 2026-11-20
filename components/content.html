@@ -1,0 +1,52 @@
+<section id="products" class="main-content">
+    <div class="section-header">
+        <h2>KHO MÔ HÌNH TRƯNG BÀY</h2>
+    </div>
+
+    <div class="product-grid">
+        <?php
+        $sql_products = "SELECT * FROM products ORDER BY id DESC";
+        $result_products = $conn->query($sql_products);
+
+        if ($result_products && $result_products->num_rows > 0):
+            while ($row = $result_products->fetch_assoc()):
+                $grade_lower = strtolower($row['grade']);
+        ?>
+            <div class="product-card" data-grade="<?php echo htmlspecialchars($row['grade']); ?>">
+                <div class="card-badge <?php echo $grade_lower; ?>">
+                    <?php echo htmlspecialchars($row['grade']); ?>
+                </div>
+                
+                <!-- Bấm vào ảnh để xem chi tiết -->
+                <a href="chitietsanpham.php?id=<?php echo $row['id']; ?>" class="img-box" style="display: block;">
+                    <img src="<?php echo htmlspecialchars($row['image']); ?>" alt="<?php echo htmlspecialchars($row['name']); ?>">
+                </a>
+
+                <div class="card-info">
+                    <!-- Bấm vào tên để xem chi tiết -->
+                    <a href="chitietsanpham.php?id=<?php echo $row['id']; ?>" style="text-decoration: none;">
+                        <h3 style="transition: 0.2s;" onmouseover="this.style.color='#00d2ff'" onmouseout="this.style.color='#fff'">
+                            <?php echo htmlspecialchars($row['name']); ?>
+                        </h3>
+                    </a>
+                    <p class="series"><?php echo htmlspecialchars($row['series']); ?></p>
+                    <div class="price-row">
+                        <span class="price"><?php echo number_format($row['price'], 0, ',', '.'); ?>₫</span>
+                        <button class="add-cart-btn" 
+                            data-name="<?php echo htmlspecialchars($row['name']); ?>"
+                            data-price="<?php echo $row['price']; ?>"
+                            data-image="<?php echo htmlspecialchars($row['image']); ?>"
+                            onclick="addFromBtn(this)">
+                            + Thêm
+                        </button>
+                    </div>
+                </div>
+            </div>
+        <?php 
+            endwhile;
+        else:
+            echo "<p>Chưa có mô hình nào trong kho.</p>";
+        endif;
+        ?>
+    </div>
+</section>
