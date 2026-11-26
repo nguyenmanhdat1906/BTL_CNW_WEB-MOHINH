@@ -60,4 +60,28 @@ if ($check_prod['total'] == 0) {
         ('RG MSN-04 Sazabi', 'RG', 'Char\'s Counterattack', 1100000, 'images/wallpaperflare.com_wallpaper.jpg')
     ");
 }
+// 5. Tạo bảng users và thêm cột phân quyền (role)
+$conn->query("CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)");
+
+// Tự động thêm cột role nếu bảng users đã tạo từ trước đó
+$check_col = $conn->query("SHOW COLUMNS FROM users LIKE 'role'");
+if ($check_col && $check_col->num_rows == 0) {
+    $conn->query("ALTER TABLE users ADD role VARCHAR(20) DEFAULT 'user'");
+}
+
+// Tự động tạo tài khoản admin mặc định nếu chưa có (User: admin | Pass: admin123)
+$check_admin = $conn->query("SELECT id FROM users WHERE username = 'admin'");
+if ($check_admin && $check_admin->num_rows == 0) {
+    $admin_pass = password_hash("admin123", PASSWORD_DEFAULT);
+    $conn->query("INSERT INTO users (username, email, password, role) VALUES ('admin', 'admin@gunplahub.vn', '$admin_pass', 'admin')");
+}
+
 ?>
+

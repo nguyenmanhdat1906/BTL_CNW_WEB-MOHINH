@@ -2,10 +2,13 @@
     <a href="trangchu.php" class="logo">GUNPLA<span>HUB</span></a>
     
     <nav class="nav-links">
-        <a href="trangchu.php" class="active">Trang chủ</a>
-        <a href="#products">Mô hình Mới</a>
-        <a href="#grades">Phân cấp (Grade)</a>
-        <a href="#tools">Dụng cụ Gunpla</a>
+        <a href="trangchu.php">Trang chủ</a>
+        <a href="trangchu.php#products">Mô hình Mới</a>
+        <a href="donhang.php">Đơn hàng của tôi</a>
+        
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <a href="admin.php" style="color: #ffccd5; font-weight: 700;">⚙️ Quản trị (Admin)</a>
+        <?php endif; ?>
     </nav>
 
     <div class="header-actions">
@@ -14,9 +17,9 @@
         </a>
 
         <?php if (isset($_SESSION['username'])): ?>
-            <span style="color: #00d2ff; font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700;">
+            <a href="donhang.php" style="color: #00d2ff; font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700; text-decoration: none;" title="Xem lịch sử đơn hàng">
                 👨‍🚀 <?php echo htmlspecialchars($_SESSION['username']); ?>
-            </span>
+            </a>
             <a href="logout.php" class="login-btn" style="background: rgba(255,255,255,0.15); box-shadow: none;">ĐĂNG XUẤT</a>
         <?php else: ?>
             <a href="login.php" class="login-btn">PILOT LOGIN</a>

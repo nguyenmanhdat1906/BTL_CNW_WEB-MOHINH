@@ -66,22 +66,27 @@ if (isset($_POST['btn_register'])) {
 
 // XỬ LÝ ĐĂNG NHẬP
 if (isset($_POST['btn_login'])) {
-    $login_input = trim($_POST['username']); // Có thể nhập username hoặc email
+    $login_input = trim($_POST['username']);
     $password = $_POST['password'];
 
-    $stmt = $conn->prepare("SELECT id, username, password FROM users WHERE username = ? OR email = ?");
+    // Lấy thêm cột role
+    $stmt = $conn->prepare("SELECT id, username, password, role FROM users WHERE username = ? OR email = ?");
     $stmt->bind_param("ss", $login_input, $login_input);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($row = $result->fetch_assoc()) {
         if (password_verify($password, $row['password'])) {
-            // Lưu thông tin đăng nhập vào Session
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['username'] = $row['username'];
-            
-            // Chuyển hướng về trang chủ
-            header("Location: trangchu.php");
+            $_SESSION['role'] = $row['role']; // Lưu quyền vào Session
+
+            // Nếu là admin thì chuyển thẳng vào trang quản trị, khách thì về trang chủ
+            if ($row['role'] === 'admin') {
+                header("Location: admin.php");
+            } else {
+                header("Location: trangchu.php");
+            }
             exit();
         } else {
             $message = "Sai mật khẩu! Vui lòng kiểm tra lại.";
@@ -93,6 +98,7 @@ if (isset($_POST['btn_login'])) {
     }
     $stmt->close();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="vi">
