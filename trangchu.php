@@ -37,6 +37,11 @@ require_once 'database.php';
 
     <!-- Script Lọc sản phẩm & Giỏ hàng -->
     <script>
+                function filterByBtn(btn) {
+            const grade = btn.getAttribute('data-grade');
+            filterProduct(grade, btn);
+        }
+
         // Lọc theo Grade
         function filterProduct(grade, btnElement) {
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));

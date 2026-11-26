@@ -127,3 +127,45 @@
         grid-template-columns: 1fr;
     }
 }
+.btn-edit {
+    padding: 6px 12px;
+    background: rgba(0, 210, 255, 0.2);
+    border: 1px solid #00d2ff;
+    color: #caf0f8;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 12px;
+    margin-right: 6px;
+    transition: 0.2s;
+}
+
+.btn-edit:hover {
+    background: #00d2ff;
+    color: #070b14;
+}
+
+.btn-cancel {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: #94a3b8;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.btn-cancel:hover {
+    color: #fff;
+}
+
+.admin-two-cols {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 28px;
+    align-items: start;
+}
+
+@media (max-width: 960px) {
+    .admin-two-cols {
+        grid-template-columns: 1fr;
+    }
+}

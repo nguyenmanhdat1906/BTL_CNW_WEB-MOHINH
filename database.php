@@ -82,6 +82,23 @@ if ($check_admin && $check_admin->num_rows == 0) {
     $admin_pass = password_hash("admin123", PASSWORD_DEFAULT);
     $conn->query("INSERT INTO users (username, email, password, role) VALUES ('admin', 'admin@gunplahub.vn', '$admin_pass', 'admin')");
 }
+// 6. Tạo bảng danh mục/menu phân cấp (categories)
+$conn->query("CREATE TABLE IF NOT EXISTS categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    code VARCHAR(20) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL
+)");
+
+// Chèn sẵn danh mục mẫu nếu bảng đang trống
+$check_cat = $conn->query("SELECT COUNT(*) as total FROM categories")->fetch_assoc();
+if ($check_cat['total'] == 0) {
+    $conn->query("INSERT INTO categories (code, name) VALUES 
+        ('HG', 'High Grade (HG 1/144)'),
+        ('RG', 'Real Grade (RG 1/144)'),
+        ('MG', 'Master Grade (MG 1/100)'),
+        ('PG', 'Perfect Grade (PG 1/60)')
+    ");
+}
 
 ?>
 

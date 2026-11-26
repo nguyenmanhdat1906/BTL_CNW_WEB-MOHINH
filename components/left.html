@@ -1,19 +1,27 @@
 <aside class="sidebar-left glass-panel">
     <h3>PHÂN CẤP (GRADE)</h3>
     <div class="filter-list">
-        <button class="filter-btn active" onclick="filterProduct('all', this)">Tất cả mô hình</button>
-        <button class="filter-btn" onclick="filterProduct('HG', this)">High Grade (HG 1/144)</button>
-        <button class="filter-btn" onclick="filterProduct('RG', this)">Real Grade (RG 1/144)</button>
-        <button class="filter-btn" onclick="filterProduct('MG', this)">Master Grade (MG 1/100)</button>
-        <button class="filter-btn" onclick="filterProduct('PG', this)">Perfect Grade (PG 1/60)</button>
+        <button class="filter-btn active" data-grade="all" onclick="filterByBtn(this)">Tất cả mô hình</button>
+        <?php
+        $left_cats = $conn->query("SELECT * FROM categories ORDER BY id ASC");
+        if ($left_cats):
+            while ($lc = $left_cats->fetch_assoc()):
+        ?>
+            <button class="filter-btn" data-grade="<?php echo htmlspecialchars($lc['code']); ?>" onclick="filterByBtn(this)">
+                <?php echo htmlspecialchars($lc['name']); ?>
+            </button>
+        <?php 
+            endwhile;
+        endif;
+        ?>
     </div>
 
     <h3 style="margin-top: 25px;">DÒNG PHIM (SERIES)</h3>
     <ul class="series-list">
-        <li><a href="#products">Gundam SEED Destiny</a></li>
-        <li><a href="#products">Mobile Suit Gundam Unicorn</a></li>
-        <li><a href="#products">The Witch from Mercury</a></li>
-        <li><a href="#products">Iron-Blooded Orphans</a></li>
-        <li><a href="#products">Char's Counterattack</a></li>
+        <li><a href="trangchu.php#products">Gundam SEED Destiny</a></li>
+        <li><a href="trangchu.php#products">Mobile Suit Gundam Unicorn</a></li>
+        <li><a href="trangchu.php#products">The Witch from Mercury</a></li>
+        <li><a href="trangchu.php#products">Iron-Blooded Orphans</a></li>
+        <li><a href="trangchu.php#products">Char's Counterattack</a></li>
     </ul>
 </aside>
