@@ -99,6 +99,45 @@ if ($check_cat['total'] == 0) {
         ('PG', 'Perfect Grade (PG 1/60)')
     ");
 }
+// --- BỔ SUNG TỪ TX04 & TX05 (KHÔNG ẢNH HƯỞNG CODE CŨ CỦA NHÓM) ---
+
+// 1. Bổ sung cột parent_id cho bảng categories để làm danh mục đa cấp (TX04)
+$check_parent = $conn->query("SHOW COLUMNS FROM categories LIKE 'parent_id'");
+if ($check_parent && $check_parent->num_rows == 0) {
+    $conn->query("ALTER TABLE categories ADD parent_id INT NOT NULL DEFAULT 0");
+}
+
+// 2. Khởi tạo thêm kết nối $pdo (chuẩn TX04/TX05) dùng chung CSDL web_mohinh
+try {
+    $pdo = new PDO("mysql:host=localhost;dbname=web_mohinh;charset=utf8mb4", "root", "");
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+} catch (PDOException $e) {
+    die("Lỗi kết nối PDO: " . $e->getMessage());
+}
+
+// 3. Các hàm bảo mật chống XSS & CSRF từ TX05
+if (!function_exists('e')) {
+    function e(string $val): string {
+        return htmlspecialchars($val, ENT_QUOTES, 'UTF-8');
+    }
+}
+if (!function_exists('getCsrfToken')) {
+    function getCsrfToken(): string {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+        return $_SESSION['csrf_token'];
+    }
+}
+if (!function_exists('verifyCsrfToken')) {
+    function verifyCsrfToken(?string $token): bool {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        return isset($_SESSION['csrf_token']) && is_string($token) && hash_equals($_SESSION['csrf_token'], $token);
+    }
+}
 
 ?>
 
